@@ -1,0 +1,3 @@
+### para fazer o import com dados iniciais:
+- python manager.py migrate
+- python manager.py loaddata initial_data

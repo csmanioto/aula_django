@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  postgres:
+      image:  postgres:15
+      volumes:
+        - /Users/csmaniotto/datadir/pgsql:/var/lib/postgresql/data
+      environment:
+        POSTGRES_USER: "csmaniotto"
+        POSTGRES_PASSWORD: "carlos123"
+      networks:
+              - internal_lan
+              - external_lan
+      ports:
+        - 5432:5432
+  app:
+    build: .
+    volumes:
+       - .:/home/user_app/app
+    environment:
+        DEBUG: "true"
+        PGDB: "cartola_fc"
+        PGUSER: "csmaniotto"
+        PGPASSWORD: "carlos123"
+        PGHOST: "postgres"
+        PGPORT: "5432"
+    networks:
+            - internal_lan
+            - external_lan
+    ports:
+      - 8000:8000
+
+networks:
+  internal_lan:
+    name: internal_lan
+  external_lan:
+    #external: true
+    name: external_lan
+    driver: bridge
