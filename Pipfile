@@ -9,6 +9,7 @@ psycopg = {extras = ["pool"] }
 django-extensions = "*"
 pydotplus = "*"
 graphviz = "*"
+django-allauth = "*"
 
 [dev-packages]
 
