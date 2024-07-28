@@ -4,13 +4,12 @@ FROM python:3.12-slim
 
 RUN pip install --upgrade pip
 RUN pip install pipenv
-
+RUN apt update && apt-get install -y build-essential 
 #Security - working with no root user.
 RUN useradd -ms /bin/bash user_app
 USER user_app
 
 WORKDIR /home/user_app/app
-
 
 ENV PIPENV_VENV_IN_PROJECT=1
 

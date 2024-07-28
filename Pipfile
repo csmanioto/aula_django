@@ -5,8 +5,10 @@ name = "pypi"
 
 [packages]
 django = "*"
-psycopg = {extras = ["pool"], version = "*"}
+psycopg = {extras = ["pool"] }
 django-extensions = "*"
+pydotplus = "*"
+graphviz = "*"
 
 [dev-packages]
 

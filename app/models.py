@@ -45,4 +45,26 @@ class Match(models.Model):
         verbose_name_plural = "Jogos"
         
 
+class Action(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.PROTECT, verbose_name="Jogador")
+    team = models.ForeignKey(Team, on_delete=models.PROTECT, verbose_name="Time")
+    minutes = models.IntegerField(verbose_name="minutos")
+    match = models.ForeignKey(Match, on_delete=models.PROTECT, verbose_name="Jogo")
     
+    class Actions(models.TextChoices):
+        GOL = 'goal', 'Gol'
+        YELLOW_CARD = 'yellow card', 'Cartão Amarelo'
+        RED_CARD = 'red card', 'Cartão Vermelho'
+        ASSIST = 'assist', 'Assistencia'
+        SUBSTITUICAO = 'Substituição'
+        NOTHING = 'Nothing', 'Nada'
+        # FALTA = 'Falta'    
+        
+    action = models.CharField(max_length=50, choices=Actions.choices, verbose_name='Ação', default=Actions.NOTHING)
+    
+    def __str__(self):
+        return f"{self.player} - {self.action}"
+    
+    class Meta:
+        verbose_name = "Ação do jogo"
+        verbose_name_plural = "Ações do Jogo"

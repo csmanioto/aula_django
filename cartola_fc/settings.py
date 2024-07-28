@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'app'
 ]
 
@@ -83,7 +84,6 @@ WSGI_APPLICATION = 'cartola_fc.wsgi.application'
 import os
 DATABASES = {
     "default": {
-        "AUTO_CREATE": True
         "ENGINE": "django.db.backends.postgresql",
         "NAME": os.environ["PGDB"],
         "USER": os.environ["PGUSER"],

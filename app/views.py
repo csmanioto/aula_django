@@ -12,3 +12,9 @@ from .models import Player
 def show_players(request):
     players = Player.objects.all() #QuerySet - Lista de objetos do tipo Player
     return render(request,'app/show_players.html', {'players': players}) 
+
+
+# Retorno como API
+# Recomendado usar o DJANGO-REST-FRAMEWORK
+def endpoints(request):
+    return JsonResponse({'message':'Hello World'})
