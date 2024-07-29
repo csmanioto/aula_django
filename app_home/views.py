@@ -18,3 +18,8 @@ def show_players(request):
 # Recomendado usar o DJANGO-REST-FRAMEWORK
 def endpoints(request):
     return JsonResponse({'message':'Hello World'})
+
+##### ---- AULA SOBRE ALLAUTH AND HTMX
+
+def home_view(request):
+    return render(request,'app/home.html')

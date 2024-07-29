@@ -19,7 +19,7 @@ services:
        - .:/home/user_app/app
     environment:
         DEBUG: "true"
-        PGDB: "cartola_fc"
+        PGDB: "project_core"
         PGUSER: "csmaniotto"
         PGPASSWORD: "carlos123"
         PGHOST: "postgres"
