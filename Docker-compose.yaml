@@ -18,12 +18,19 @@ services:
     volumes:
        - .:/home/user_app/app
     environment:
-        DEBUG: "true"
+        DEBUG: True
         PGDB: "project_core"
         PGUSER: "csmaniotto"
         PGPASSWORD: "carlos123"
         PGHOST: "postgres"
         PGPORT: "5432"
+        PG_POOL_MIN_SIZE: 2
+        PG_POOL_MAX_SIZE: 500
+        PG_POOL_TIMEOUT: 10
+        LANGUAGE_CODE: "pt-br"
+        TIME_ZONE: "UTC"
+        HEADER_TITLE: "3cord.AI - SmartMon 📈📊🥸 "
+        SECRET_KEY: "'SuperSman_at_3cord_ay%^)js1c%zxz^h$rft5%w712pr$4j9h1n4u%tr&4jt&mtjls3'"
     networks:
             - internal_lan
             - external_lan

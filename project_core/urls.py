@@ -16,12 +16,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
+from app_home.views import *
+from app_users.views import *
 
-admin.site.site_header = 'CartolaFC Admin'               # default: "Django Administration"
+admin.site.site_header = 'Projeto core'               # default: "Django Administration"
 admin.site.index_title = 'Menu Administrativo'           # default: "Site administration"
 admin.site.site_title = 'HTML title from adminsitration' # default: "Django site admin"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('app_home.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('', include("app_home.urls")),
+    path('', include("app_users.urls")),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Only used when DEBUG=True, whitenoise can serve files when DEBUG=False
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

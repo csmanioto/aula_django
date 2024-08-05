@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)h=bex@12)$a8mv@%v#(aznqi(0&fsv(39f4^sv$y55ueji-fw'
+#SECRET_KEY = 'django-insecure-)h=bex@12)$a8mv@%v#(aznqi(0&fsv(39f4^sv$y55ueji-fw'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEBUG']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
 
 
 # Application definition
@@ -38,8 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django_cleanup.apps.CleanupConfig',
+    'django_htmx',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.apple',
+    'allauth.socialaccount.providers.microsoft',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
     'app_home',
-    'app_users'
+    'app_users',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +61,72 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Provider specific settings
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         # For each OAuth based provider, either add a ``SocialApp``
+#         # (``socialaccount`` app) containing the required client
+#         # credentials, or list them here:
+#         'APP': {
+#             'client_id': '108397828141440053097',
+#             'secret': '456',
+#             'key': {
+#                     "type": "service_account",
+#                     "project_id": "smartmon-431612",
+#                     "private_key_id": "f5fe0d3cf2099f7534bbaed2f35f63233c5665dc",
+#                     "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCqrFdmB3XlmtnA\nYH2Z2tI/w1QkDriYe2JNisLl6/KudrKPWSnuQSeNw+eg/ocjAIFHHaOHQNa7rLlf\n7lEmtxDd4zfj3UMBAARiUFyu3RkYDFGelydZ7gOVIwTi7v5rmZWLAb7ZUfp9oP4K\nJUv3JLHEkSPp0oVTTnjYH1PoxLuB0c84MpB2cnxb+2+iprp7FxZSXdp/ESIa3inS\nJc67AA8sD2UsX7kWN7Q9KZihyGOpoVQZC1YybEa8yNn0KzMy5fYLokhh9bMjB2bv\nryTgrLjDNPukXoYz9+2cIhcp3viazNDNofRJwdhiTEUdkRiafN61nmPoA6AfWAs0\n29Zx0vyvAgMBAAECggEACMZZHqYcNmnu72vjBbRUuyq7nfEwtDci3NO8wbaPB+wh\nQA6YgdjRQ+VpXApoQAaNnvy7AQ5oO+MIC4R59oQoFp6YHVvJ3VT3AS6MUADHnvLJ\nabPTi1VS02Km+f8CgPnv7Rv/+dJenVcfEWjptUTVJLTT1jGYxP7sn2Rmt+RmXjb/\nOC21pJlDCG+e4b4frJllEzKwZ12SToCYUZNHrV1tWLmAoWFZAvvvGEVkAmcJE6T9\nUq68lmux8ocHKraHxYrzoA44OjNDr5BaryJ6lPpQnVK1jrGS//fwmWT74Yq4T/Rf\nHqZQa8eKhndaf+EiTuyCtXqhrtBtf5y1JPwf2IAloQKBgQDV+hQHn0Td2SNjEGs4\nE0qFWzC4nJd/umtKJsyKdqn1W+mrSFdUreBBqZHJFGGaifrlkivtvPQgJ9CCxnee\nCgvxwJFDinH+zO4We4d0PZyX45vKbQsHfzzQq4D2H+fsGoR00QA4+Z6Rz117IM0v\nVxnrDJHgqDREWO2ouWGT5J6vnwKBgQDMMR/J/zMvXxOiEPHUrP3vDk7e/LBldoX1\nH8RzbvFpP4HZyN5Uj/JTIcBLKD0yw6mQ738vEUSglXyl5LXvVIaOV7234QzZ92UU\nA9LNl3jBGBNHg6f0M3cJbBkm0ul+akx3AffEFeIdb6V/zJ+uZux4+9Z9PzpASzDQ\nDCr4Rk9Y8QKBgQDPJlk5v9DVzR7bCswh71sXm16heseYGgtAMCuYaKTFKgQfk9sn\n2WTfbJ/8QMT07Vt94HKyp1jXwHO2BxlKYIOLuVdoQaF2gUKFdXV+7R6qVOk/oS0q\nRt3DTiV9IQpPoqRUyvkiL1Z55nyjdO/vQq2Oxg57pZtkB4uc6ksy+ANAFQKBgCxh\n/Rvl6ZVBYD4Y2se0dlmQzZnwaNMVCRb3ubaxha2vzSSuYY0V4MErE+YCMBMprmC/\nffCYG0egVoCkjtsfj0O/VJB0TVvPR1wrXJWtd+TYu9AOkOImkZgts+XZcEE3D7nK\nZrVrYEOvsdRugMLiwkGl08BTjvDMpyaBjpF6juKxAoGAMcjSGukHDGFzvi8gc/IS\nbgLPyIxKDLnIY3A9n6agCJVmVDJbKD3mr+BaueaurheLqs4PQucTBcTwv+q8q9PG\nz83SI5Nfv4yUb7ElrPx6D/zoNgsrjYF+7wTAwufQdQ6vucQQ/bPHkvp+eZXqBWuh\nGu8Nr377fj04dtJ5CKcFPEQ=\n-----END PRIVATE KEY-----\n",
+#                     "client_email": "sso-django@smartmon-431612.iam.gserviceaccount.com",
+#                     "client_id": "108397828141440053097",
+#                     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+#                     "token_uri": "https://oauth2.googleapis.com/token",
+#                     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+#                     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sso-django%40smartmon-431612.iam.gserviceaccount.com",
+#                     "universe_domain": "googleapis.com"
+#                     }
+#         }
+#     }
+# }
+
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    "github": {
+        # For each provider, you can choose whether or not the
+        # email address(es) retrieved from the provider are to be
+        # interpreted as verified.
+        "VERIFIED_EMAIL": True
+    },
+    "google": {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        "APPS": [
+            {
+                "client_id": "123",
+                "secret": "456",
+                "key": ""
+            },
+        ],
+        # These are provider-specific settings that can only be
+        # listed here:
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
+}
 
 ROOT_URLCONF = 'project_core.urls'
 
@@ -65,6 +141,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'project_core.context_processors.environment_variables',  # Permite trazer variavies de ambiente para o template (Ex: includes/headers.html )
+
             ],
         },
     },
@@ -82,7 +160,6 @@ WSGI_APPLICATION = 'project_core.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-import os
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -93,14 +170,13 @@ DATABASES = {
         "PORT": os.environ["PGPORT"],
         "OPTIONS": {
             "pool": {
-                "min_size": 2,
-                "max_size": 4,
-                "timeout": 10,
+                "min_size": int(os.environ['PG_POOL_MIN_SIZE']),
+                "max_size": int(os.environ['PG_POOL_MAX_SIZE']),
+                "timeout": int(os.environ['PG_POOL_TIMEOUT']),
             }
         },
     },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
@@ -124,8 +200,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 
-LANGUAGE_CODE = 'pt-br'
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = os.environ['LANGUAGE_CODE']
+TIME_ZONE = os.environ['TIME_ZONE'] 
 USE_I18N = True
 USE_TZ = True
 
@@ -137,7 +213,17 @@ USE_TZ = True
 STATICFILES_DIRS = [BASE_DIR / "static" ]
 STATIC_URL = 'static/'
 
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = 'media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = '/'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/account/confirm-email/'
+# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/account/confirm-email/'

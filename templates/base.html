@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Title</title>
+    <title>Project</title>
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://unpkg.com/htmx.org/dist/htmx.js" defer></script>
@@ -46,7 +46,7 @@
             @apply !bg-gray-300 hover:!bg-[#c3c9d0]
         }
         .navitems>li>a {
-            @apply flex items-center gap-2 h-12 px-4 hover:bg-gray-700 rounded-lg;
+            @apply flex items-center gap-2 h-12 px-4 hover:bg-[rgba(31,41,55,0.3)] rounded-lg;
         }
         .hoverlist>* {
             @apply hover:bg-gray-100 rounded-md transition duration-150;
@@ -90,10 +90,10 @@
         input[name="remember"] {
             @apply w-auto
         }
-        .alert-info { @apply bg-blue-300 }
-        .alert-success { @apply bg-green-400 }
-        .alert-warning { @apply bg-amber-400 }
-        .alert-danger { @apply bg-amber-500 }
+        .alert-info { @apply bg-sky-600 }
+        .alert-success { @apply bg-emerald-600 }
+        .alert-warning { @apply bg-orange-600 }
+        .alert-danger { @apply bg-red-600 }
     </style>
 </head>
 <body class="{% block class %}{% endblock %}">
@@ -102,14 +102,9 @@
 
     {% include 'includes/headers.html' %}
 
-{% comment %} 
-    <content class="block w-full">
-        <div class="max-w-4xl mx-auto px-8 py-24">
-            <h1>New Project</h1>
-        </div>
-    </content> {% endcomment %}
-
     {% block layout %} 
     {% endblock %}
+
+    {% block javascript %}{% endblock %}
 </body>
 </html>

@@ -4,13 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "==5.1rc1"
 psycopg = {extras = ["pool"] }
 django-extensions = "*"
-django-allauth = "*"
 pillow = "*"
 django-cleanup = "*"
 django-htmx = "*"
+django = "*"
+django-allauth = {extras = ["socialaccount"], version = "*"}
 
 [dev-packages]
 
